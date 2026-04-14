@@ -1,0 +1,82 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Laptop Gamer Pro",
+      "descripcion": "Laptop de alto rendimiento para gaming y trabajo profesional",
+      "precio": 899.99,
+      "categoria": "Electrónica",
+      "proveedor": "TechCorp",
+      "rating": 4.8,
+      "stock": 15,
+      "imagen": "https://via.placeholder.com/300x200/4F46E5/white?text=Laptop",
+      "destacado": true,
+      "etiquetas": ["gaming", "laptop", "potente"]
+    },
+    {
+      "id": 2,
+      "nombre": "Smartphone X",
+      "descripcion": "Teléfono inteligente con cámara de 108MP",
+      "precio": 699.99,
+      "categoria": "Electrónica",
+      "proveedor": "MobileInc",
+      "rating": 4.6,
+      "stock": 42,
+      "imagen": "https://via.placeholder.com/300x200/10B981/white?text=Phone",
+      "destacado": true,
+      "etiquetas": ["smartphone", "android", "cámara"]
+    },
+    {
+      "id": 3,
+      "nombre": "Auriculares Bluetooth",
+      "descripcion": "Audífonos inalámbricos con cancelación de ruido",
+      "precio": 89.99,
+      "categoria": "Accesorios",
+      "proveedor": "AudioBrand",
+      "rating": 4.5,
+      "stock": 120,
+      "imagen": "https://via.placeholder.com/300x200/F59E0B/white?text=Headphones",
+      "destacado": false,
+      "etiquetas": ["audio", "bluetooth", "wireless"]
+    },
+    {
+      "id": 4,
+      "nombre": "Mouse Ergonómico",
+      "descripcion": "Mouse vertical para prevenir lesiones",
+      "precio": 45.50,
+      "categoria": "Accesorios",
+      "proveedor": "PeripheralsCo",
+      "rating": 4.3,
+      "stock": 85,
+      "imagen": "https://via.placeholder.com/300x200/EF4444/white?text=Mouse",
+      "destacado": false,
+      "etiquetas": ["mouse", "ergonomía", "oficina"]
+    },
+    {
+      "id": 5,
+      "nombre": "Monitor 4K 27\"",
+      "descripcion": "Monitor UltraHD para diseño y productividad",
+      "precio": 349.99,
+      "categoria": "Electrónica",
+      "proveedor": "DisplayTech",
+      "rating": 4.7,
+      "stock": 23,
+      "imagen": "https://via.placeholder.com/300x200/8B5CF6/white?text=Monitor",
+      "destacado": true,
+      "etiquetas": ["monitor", "4k", "diseño"]
+    },
+    {
+      "id": 6,
+      "nombre": "Teclado Mecánico",
+      "descripcion": "Teclado RGB con switches mecánicos",
+      "precio": 129.99,
+      "categoria": "Accesorios",
+      "proveedor": "PeripheralsCo",
+      "rating": 4.9,
+      "stock": 34,
+      "imagen": "https://via.placeholder.com/300x200/EC4899/white?text=Keyboard",
+      "destacado": false,
+      "etiquetas": ["teclado", "mecánico", "gaming"]
+    }
+  ]
+}
