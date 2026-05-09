@@ -3,105 +3,626 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#4F46E5">
-    <meta name="description" content="Catálogo de productos PWA - Filtros avanzados">
-    
-    <!-- Título de la app -->
-    <title>Mi Catálogo PWA</title>
-    
-    <!-- Link al manifest (necesario para PWA) -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- Iconos para diferentes dispositivos -->
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-    
-    <!-- CSS principal -->
-    <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Soporte para navegadores antiguos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="theme-color" content="#ff9900">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MiTiendita Catálogo">
+    <title>Catálogo Mi Tiendita</title>
+    <link rel="manifest" href="manifest-catalogo.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Amazon Ember', system-ui, sans-serif;
+            background: #eaeced;
+            padding: 12px;
+        }
+
+        .app {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #232f3e, #1a2532);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .buscador-container {
+            background: white;
+            padding: 16px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        #buscarProductoCatalogo {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #ffe0e6;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        #buscarProductoCatalogo:focus {
+            border-color: #ff9900;
+            box-shadow: 0 0 0 3px rgba(255,153,0,0.1);
+        }
+
+        .resultado-busqueda {
+            font-size: 0.8rem;
+            color: #565959;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+            max-height: 550px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .producto-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .producto-imagen {
+            background: linear-gradient(135deg, #f7f7f7, #e2e2e2);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            overflow: hidden;
+        }
+
+        .producto-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .producto-card:hover .producto-imagen img {
+            transform: scale(1.05);
+        }
+
+        .producto-info {
+            padding: 16px;
+        }
+
+        .producto-nombre {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #232f3e;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .producto-categoria {
+            font-size: 0.7rem;
+            color: #565959;
+            margin-bottom: 8px;
+        }
+
+        .producto-precio {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #b12704;
+            margin: 8px 0;
+        }
+
+        .producto-precio small {
+            font-size: 0.7rem;
+            font-weight: normal;
+        }
+
+        .producto-stock {
+            font-size: 0.75rem;
+            margin: 8px 0;
+            padding: 4px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .stock-disponible {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stock-agotado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .stock-bajo {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .btn-whatsapp-producto {
+            background: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 30px;
+            margin-top: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-whatsapp-producto:hover {
+            background: #128C7E;
+        }
+
+        .btn-whatsapp-general {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .sin-productos {
+            text-align: center;
+            padding: 60px 20px;
+            color: #565959;
+        }
+
+        .modal-qr {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-qr.show {
+            display: flex;
+        }
+
+        .modal-contenido-qr {
+            background: white;
+            padding: 28px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 320px;
+        }
+
+        .numero-whatsapp {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 12px;
+            margin: 12px 0;
+            font-size: 1.2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #ff9900;
+            font-size: 1.2rem;
+        }
+
+        .ultima-actualizacion {
+            font-size: 0.7rem;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        .estado-catalogo {
+            background: #e6f4ea;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #2e7d32;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #565959;
+            font-size: 0.7rem;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header de la aplicación -->
-    <header class="app-header">
-        <div class="header-content">
-            <i class="fas fa-store"></i>
-            <h1>Mi Catálogo</h1>
-            <!-- Indicador de instalación PWA -->
-            <button id="installButton" class="install-btn" style="display: none;">
-                <i class="fas fa-download"></i> Instalar
-            </button>
-        </div>
+<div class="app">
+    <header class="header">
+        <h1>🛍️ Catálogo Mi Tiendita</h1>
+        <p>🛒 Productos disponibles | 💬 Consulta por WhatsApp</p>
+        <div id="fechaActualizacion" class="ultima-actualizacion"></div>
     </header>
 
-    <!-- Barra de búsqueda -->
-    <div class="search-container">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Buscar productos..." class="search-input">
-        <button id="clearSearch" class="clear-search" style="display: none;">
-            <i class="fas fa-times"></i>
+    <!-- Buscador -->
+    <div class="buscador-container">
+        <input type="text" id="buscarProductoCatalogo" placeholder="🔍 Buscar producto por nombre...">
+        <div id="resultadoBusqueda" class="resultado-busqueda"></div>
+    </div>
+    
+    <div id="estadoCatalogo" class="estado-catalogo" style="display: none;"></div>
+    
+    <div id="productosContainer" class="productos-grid">
+        <div class="loading">🔄 Cargando catálogo...</div>
+    </div>
+    
+    <div style="text-align: center;">
+        <button id="btnWhatsappGeneral" class="btn-whatsapp-general">
+            💬 Contactar por WhatsApp
         </button>
     </div>
-
-    <!-- Filtros avanzados -->
-    <div class="filters-container">
-        <div class="filter-group">
-            <label><i class="fas fa-tag"></i> Categoría</label>
-            <select id="categoryFilter">
-                <option value="">Todas</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label><i class="fas fa-truck"></i> Proveedor</label>
-            <select id="supplierFilter">
-                <option value="">Todos</option>
-            </select>
-        </div>
-
-        <div class="filter-group">
-            <label><i class="fas fa-star"></i> Calificación</label>
-            <select id="ratingFilter">
-                <option value="">Todas</option>
-                <option value="4">4+ estrellas</option>
-                <option value="3">3+ estrellas</option>
-                <option value="2">2+ estrellas</option>
-            </select>
-        </div>
-
-        <div class="filter-group price-range">
-            <label><i class="fas fa-dollar-sign"></i> Precio máximo</label>
-            <input type="range" id="priceRange" min="0" max="1000" step="10" value="1000">
-            <span id="priceValue">$1000</span>
-        </div>
-
-        <button id="resetFilters" class="reset-btn">
-            <i class="fas fa-undo"></i> Resetear filtros
-        </button>
+    
+    <div class="footer">
+        📅 Productos actualizados frecuentemente | 📸 Imágenes referenciales
     </div>
+</div>
 
-    <!-- Contador de resultados -->
-    <div class="results-count" id="resultsCount">
-        Mostrando X productos
+<!-- Modal WhatsApp -->
+<div id="modalContacto" class="modal-qr">
+    <div class="modal-contenido-qr">
+        <h3>📱 Contactar vendedora</h3>
+        <div id="qrPlaceholder" style="font-size: 4rem; margin: 16px;">💬</div>
+        <div class="numero-whatsapp" id="numeroWhatsappDisplay">+593 XX XXX XXXX</div>
+        <p>Haz clic en el número para abrir WhatsApp</p>
+        <button id="cerrarModal" class="btn-whatsapp-general" style="margin-top: 16px;">Cerrar</button>
     </div>
+</div>
 
-    <!-- Grid de productos -->
-    <div id="productsGrid" class="products-grid">
-        <!-- Los productos se cargarán dinámicamente aquí -->
-        <div class="loading-spinner">
-            <i class="fas fa-spinner fa-spin"></i> Cargando productos...
-        </div>
-    </div>
+<script>
+    // ==================== CONFIGURACIÓN ====================
+    // ⚙️ CAMBIA ESTE NÚMERO POR EL WHATSAPP DE LA EMPLEADA
+    const NUMERO_VENDEDORA = "593987654321";
+    const URL_INVENTARIO_AUTOMATICO = "inventario.json";
+    
+    let productos = [];
+    let productosFiltrados = [];
+    
+    // Mapeo de categorías a emojis (para productos sin imagen)
+    const emojiPorCategoria = {
+        'lácteos': '🥛', 'leche': '🥛', 'yogur': '🥛',
+        'panadería': '🍞', 'pan': '🍞', 'pastel': '🍰',
+        'bebidas': '☕', 'café': '☕', 'jugo': '🧃',
+        'granos': '🌾', 'arroz': '🌾', 'frijol': '🫘',
+        'aceites': '🫒', 'aceite': '🫒',
+        'frutas': '🍎', 'fruta': '🍎', 'manzana': '🍎', 'plátano': '🍌',
+        'verduras': '🥬', 'verdura': '🥬', 'tomate': '🍅',
+        'carne': '🥩', 'pollo': '🍗', 'pescado': '🐟', 'cerdo': '🥓',
+        'ofertas': '🏷️', 'promo': '🏷️', 'descuento': '🏷️'
+    };
+    const emojiDefault = '🎁';
+    
+    // ==================== LOCALSTORAGE ====================
+    function guardarProductosEnStorage() {
+        localStorage.setItem('catalogo_productos', JSON.stringify(productos));
+        localStorage.setItem('catalogo_fecha', new Date().toISOString());
+    }
+    
+    function cargarProductosDeStorage() {
+        const stored = localStorage.getItem('catalogo_productos');
+        if (stored) {
+            productos = JSON.parse(stored);
+            productosFiltrados = [...productos];
+            return true;
+        }
+        return false;
+    }
+    
+    function mostrarFechaActualizacion() {
+        const fecha = localStorage.getItem('catalogo_fecha');
+        if (fecha) {
+            const date = new Date(fecha);
+            const fechaStr = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+            document.getElementById('fechaActualizacion').innerHTML = `📅 Última actualización: ${fechaStr}`;
+        } else {
+            document.getElementById('fechaActualizacion').innerHTML = `📅 Cargando catálogo...`;
+        }
+    }
+    
+    function mostrarEstadoCatalogo() {
+        const estadoDiv = document.getElementById('estadoCatalogo');
+        const productosConImagen = productos.filter(p => p.imagen).length;
+        if (productos.length > 0) {
+            estadoDiv.innerHTML = `📦 ${productos.length} productos disponibles | 📸 ${productosConImagen} con foto`;
+            estadoDiv.style.display = 'block';
+        } else {
+            estadoDiv.style.display = 'none';
+        }
+    }
+    
+    // ==================== OBTENER EMOJI POR CATEGORÍA ====================
+    function obtenerEmojiPorCategoria(categoria) {
+        if (!categoria) return emojiDefault;
+        const catLower = categoria.toLowerCase();
+        for (const [key, emoji] of Object.entries(emojiPorCategoria)) {
+            if (catLower.includes(key)) {
+                return emoji;
+            }
+        }
+        return emojiDefault;
+    }
+    
+    // ==================== FUNCIÓN DE BÚSQUEDA ====================
+    function filtrarProductos() {
+        const texto = document.getElementById('buscarProductoCatalogo').value.toLowerCase().trim();
+        const resultadoDiv = document.getElementById('resultadoBusqueda');
+        
+        if (texto === "") {
+            productosFiltrados = [...productos];
+            resultadoDiv.innerHTML = `📊 Mostrando ${productosFiltrados.length} productos`;
+        } else {
+            productosFiltrados = productos.filter(p => 
+                p.nombre.toLowerCase().includes(texto) || 
+                (p.categoria && p.categoria.toLowerCase().includes(texto))
+            );
+            resultadoDiv.innerHTML = `🔍 Encontrados ${productosFiltrados.length} productos para "${texto}"`;
+        }
+        
+        renderizarCatalogo();
+    }
+    
+    // ==================== RENDERIZAR CATÁLOGO ====================
+    function obtenerClaseStock(cantidad) {
+        if (cantidad <= 0) return 'stock-agotado';
+        if (cantidad < 5) return 'stock-bajo';
+        return 'stock-disponible';
+    }
+    
+    function obtenerTextoStock(cantidad) {
+        if (cantidad <= 0) return '❌ Agotado';
+        if (cantidad < 5) return `⚠️ Últimas ${cantidad} unidades`;
+        return `✅ Disponible (${cantidad})`;
+    }
+    
+    function escapeHtml(texto) {
+        if (!texto) return '';
+        return texto.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    function renderizarCatalogo() {
+        const container = document.getElementById('productosContainer');
+        
+        if (!productosFiltrados || productosFiltrados.length === 0) {
+            if (productos.length === 0) {
+                container.innerHTML = '<div class="sin-productos">📭 No hay productos disponibles en este momento<br>Pronto actualizaremos el catálogo</div>';
+            } else {
+                container.innerHTML = '<div class="sin-productos">🔍 No se encontraron productos con ese nombre</div>';
+            }
+            return;
+        }
+        
+        const productosOrdenados = [...productosFiltrados].sort((a,b) => a.nombre.localeCompare(b.nombre));
+        
+        container.innerHTML = productosOrdenados.map(p => {
+            const stockClass = obtenerClaseStock(p.cantidad);
+            const stockText = obtenerTextoStock(p.cantidad);
+            const mensajeWhatsapp = encodeURIComponent(`Hola! Vi el catálogo y me interesa el producto: ${p.nombre} ($${p.precioVenta.toFixed(2)})`);
+            const enlaceWhatsapp = `https://wa.me/${NUMERO_VENDEDORA}?text=${mensajeWhatsapp}`;
+            
+            // Determinar contenido del área de imagen (emoji o imagen real)
+            let contenidoImagen = '';
+            if (p.imagen && p.imagen.trim() !== '') {
+                // Imagen real: usar tag img con lazy loading
+                contenidoImagen = `<img src="${p.imagen}" alt="${escapeHtml(p.nombre)}" loading="lazy" onerror="this.style.display='none'; this.parentNode.innerHTML='${obtenerEmojiPorCategoria(p.categoria)}'">`;
+            } else {
+                // Emoji por categoría
+                contenidoImagen = obtenerEmojiPorCategoria(p.categoria);
+            }
+            
+            return `
+                <div class="producto-card">
+                    <div class="producto-imagen">
+                        ${contenidoImagen}
+                    </div>
+                    <div class="producto-info">
+                        <div class="producto-nombre">${escapeHtml(p.nombre)}</div>
+                        <div class="producto-categoria">📁 ${escapeHtml(p.categoria) || 'General'}</div>
+                        <div class="producto-precio">$${p.precioVenta.toFixed(2)} <small>c/u</small></div>
+                        <div class="producto-stock ${stockClass}">${stockText}</div>
+                        <button class="btn-whatsapp-producto" onclick="window.open('${enlaceWhatsapp}', '_blank')">
+                            💬 Preguntar por este producto
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // Precargar imágenes en caché para offline (solo imágenes reales)
+        const imagenesParaCache = productosOrdenados.filter(p => p.imagen && p.imagen.trim() !== '').map(p => p.imagen);
+        if (imagenesParaCache.length > 0 && 'caches' in window) {
+            caches.open('catalogo-imagenes-v1').then(cache => {
+                imagenesParaCache.forEach(url => {
+                    fetch(url, { cache: 'force-cache' }).then(res => {
+                        if (res.ok) cache.put(url, res);
+                    }).catch(() => {});
+                });
+            });
+        }
+    }
+    
+    // ==================== CARGA AUTOMÁTICA DESDE GITHUB ====================
+    async function cargarCatalogo() {
+        const container = document.getElementById('productosContainer');
+        container.innerHTML = '<div class="loading">🔄 Cargando catálogo...</div>';
+        
+        try {
+            // Intentar cargar desde inventario.json en GitHub
+            const respuesta = await fetch(URL_INVENTARIO_AUTOMATICO, { cache: 'no-store' });
+            if (respuesta.ok) {
+                const datos = await respuesta.json();
+                
+                // Procesar datos (puede ser {productos: []} o array directo)
+                let nuevosProductos = [];
+                if (datos.productos && Array.isArray(datos.productos)) {
+                    nuevosProductos = datos.productos;
+                } else if (Array.isArray(datos)) {
+                    nuevosProductos = datos;
+                } else {
+                    throw new Error('Formato no reconocido');
+                }
+                
+                // Validar y limpiar productos
+                productos = nuevosProductos.filter(p => p.nombre && typeof p.precioVenta !== 'undefined');
+                productos.forEach(p => {
+                    p.cantidad = p.cantidad || 0;
+                    p.precioVenta = parseFloat(p.precioVenta) || 0;
+                    p.costo = parseFloat(p.costo) || 0;
+                    // Validar imagen (solo URLs seguras)
+                    if (p.imagen && typeof p.imagen === 'string' && p.imagen.trim() !== '') {
+                        // Si es ruta relativa, mantenerla
+                        if (!p.imagen.startsWith('http')) {
+                            p.imagen = p.imagen;
+                        }
+                    } else {
+                        p.imagen = null;
+                    }
+                });
+                
+                productosFiltrados = [...productos];
+                guardarProductosEnStorage();
+                
+                renderizarCatalogo();
+                mostrarFechaActualizacion();
+                mostrarEstadoCatalogo();
+                
+                const productosConImagen = productos.filter(p => p.imagen).length;
+                document.getElementById('resultadoBusqueda').innerHTML = `📊 ${productos.length} productos | 📸 ${productosConImagen} con foto`;
+                console.log('✅ Catálogo cargado desde GitHub');
+                return true;
+            }
+            throw new Error('No se pudo cargar inventario.json');
+        } catch (error) {
+            console.log('⚠️ Usando catálogo guardado en caché');
+            if (cargarProductosDeStorage()) {
+                productosFiltrados = [...productos];
+                renderizarCatalogo();
+                mostrarFechaActualizacion();
+                mostrarEstadoCatalogo();
+                const productosConImagen = productos.filter(p => p.imagen).length;
+                document.getElementById('resultadoBusqueda').innerHTML = `📊 ${productos.length} productos (sin conexión) | 📸 ${productosConImagen} con foto`;
+                return true;
+            }
+            document.getElementById('productosContainer').innerHTML = `
+                <div class="sin-productos">
+                    📭 No hay productos disponibles en este momento<br>
+                    Pronto actualizaremos nuestro catálogo.
+                </div>
+            `;
+            return false;
+        }
+    }
+    
+    // ==================== WHATSAPP GENERAL ====================
+    function abrirWhatsappGeneral() {
+        const mensajeGeneral = encodeURIComponent('Hola, vi el catálogo y me interesan sus productos. ¿Podría darme más información?');
+        const url = `https://wa.me/${NUMERO_VENDEDORA}?text=${mensajeGeneral}`;
+        window.open(url, '_blank');
+    }
+    
+    document.getElementById('btnWhatsappGeneral').onclick = () => {
+        const modal = document.getElementById('modalContacto');
+        const numeroFormateado = NUMERO_VENDEDORA.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+        document.getElementById('numeroWhatsappDisplay').innerHTML = `+${numeroFormateado}`;
+        modal.classList.add('show');
+    };
+    
+    document.getElementById('cerrarModal').onclick = () => {
+        document.getElementById('modalContacto').classList.remove('show');
+    };
+    
+    window.onclick = (e) => {
+        const modal = document.getElementById('modalContacto');
+        if (e.target === modal) modal.classList.remove('show');
+    };
+    
+    // Evento del buscador
+    document.getElementById('buscarProductoCatalogo').addEventListener('input', filtrarProductos);
+    
+    // ==================== INICIALIZACIÓN ====================
+    (async function init() {
+        await cargarCatalogo();
+        
+        // Recargar automáticamente cada 30 minutos (para actualizar si hay nuevos productos)
+        setInterval(() => {
+            cargarCatalogo();
+        }, 1800000);
+    })();
+</script>
 
-    <!-- Footer con estado offline -->
-    <footer class="app-footer">
-        <div class="status" id="onlineStatus">
-            <i class="fas fa-wifi"></i> En línea
-        </div>
-        <div class="version">PWA v1.0</div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="js/app.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw-catalogo.js').then(() => {
+            console.log('Service Worker registrado');
+        }).catch(err => {
+            console.log('Service Worker error:', err);
+        });
+    }
+</script>
 </body>
 </html>
