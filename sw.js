@@ -3,7 +3,7 @@
  * Permite funcionamiento offline y caché de recursos
  */
 
-const CACHE_NAME = 'catalogo-pwa-v1';
+const CACHE_NAME = 'catalogo-pwa-v2';
 const urlsToCache = [
     '/',
     '/index.html',
