@@ -1,1 +1,89 @@
-
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Leche Entera Gloria 1L",
+      "categoria": "Lácteos",
+      "cantidad": 25,
+      "precioVenta": 3.50,
+      "costo": 2.80
+    },
+    {
+      "id": 2,
+      "nombre": "Pan Integral Artesanal",
+      "categoria": "Panadería",
+      "cantidad": 12,
+      "precioVenta": 1.80,
+      "costo": 1.20,
+      "imagen": "imagenes/pan.webp"
+    },
+    {
+      "id": 3,
+      "nombre": "Café Molido Árabe 500g",
+      "categoria": "Bebidas",
+      "cantidad": 8,
+      "precioVenta": 6.90,
+      "costo": 5.00
+    },
+    {
+      "id": 4,
+      "nombre": "Arroz Superior 1kg",
+      "categoria": "Granos",
+      "cantidad": 40,
+      "precioVenta": 1.60,
+      "costo": 1.10
+    },
+    {
+      "id": 5,
+      "nombre": "Aceite de Oliva 500ml",
+      "categoria": "Aceites",
+      "cantidad": 6,
+      "precioVenta": 5.50,
+      "costo": 4.20,
+      "imagen": "imagenes/aceite.webp"
+    },
+    {
+      "id": 6,
+      "nombre": "Manzana Roja (kg)",
+      "categoria": "Frutas",
+      "cantidad": 15,
+      "precioVenta": 2.80,
+      "costo": 2.00,
+      "imagen": "imagenes/manzana.webp"
+    },
+    {
+      "id": 7,
+      "nombre": "Tomate Riñón (kg)",
+      "categoria": "Verduras",
+      "cantidad": 10,
+      "precioVenta": 2.20,
+      "costo": 1.50
+    },
+    {
+      "id": 8,
+      "nombre": "Pechuga de Pollo (kg)",
+      "categoria": "Carnes",
+      "cantidad": 5,
+      "precioVenta": 8.50,
+      "costo": 7.00,
+      "imagen": "imagenes/pollo.webp"
+    },
+    {
+      "id": 9,
+      "nombre": "Queso Fresco 500g",
+      "categoria": "Lácteos",
+      "cantidad": 7,
+      "precioVenta": 4.50,
+      "costo": 3.50
+    },
+    {
+      "id": 10,
+      "nombre": "Promo: 3 Leches + 1 Gratis",
+      "categoria": "Ofertas",
+      "cantidad": 20,
+      "precioVenta": 10.50,
+      "costo": 8.40,
+      "imagen": "imagenes/promo.webp"
+    }
+  ]
+}
